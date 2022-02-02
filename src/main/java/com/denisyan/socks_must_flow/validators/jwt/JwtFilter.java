@@ -1,6 +1,8 @@
 package com.denisyan.socks_must_flow.validators.jwt;
 
 import com.denisyan.socks_must_flow.security.WarehouseUserDetailsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,7 +16,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import static org.springframework.util.StringUtils.hasText;
 
@@ -22,7 +23,7 @@ import static org.springframework.util.StringUtils.hasText;
 @Component
 public class JwtFilter extends GenericFilterBean {
 
-    private final Logger logger = Logger.getLogger("JwtFilter Logger");
+    private final Logger logger = LoggerFactory.getLogger("JwtFilter Logger");
 
     public static final String AUTHORIZATION = "Authorization";
     public static final String BEARER = "Bearer ";
@@ -35,9 +36,8 @@ public class JwtFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        logger.info("do filter...");
         String token = getTokenFromRequest((HttpServletRequest) servletRequest);
-        logger.info("servletRequest: " + servletRequest);
+        logger.debug("servletRequest: " + servletRequest);
         if (token != null && jwtProvider.validateToken(token)) {
             logger.info("зашли в фильтр токена");
             String userLogin = jwtProvider.getLoginFromToken(token);

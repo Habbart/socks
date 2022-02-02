@@ -4,12 +4,12 @@ drop table if exists role_table cascade;
 
 
 create table role_table (
-    id int auto_increment primary key ,
+    id bigserial primary key ,
     role_name varchar(55)
 );
 
 create table user_table(
-    id int auto_increment primary key ,
+    id bigserial primary key ,
     name varchar(35),
     surname varchar(55),
     login varchar(35),

@@ -27,8 +27,6 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
 
-
-
     /**
      * Сохраняет нового пользователя в базу данных.
      * Если пользователь с таким логином уже существует, то бросает исключение.
@@ -63,16 +61,17 @@ public class UserService {
      */
     public User findByLoginAndPassword(String login, String password) {
         User user = userRepository.findByLogin(login);
-        logger.info("Юзер из репозитория по логину и паролю: " + user.getLogin() + " " + user.getPassword());
+//        logger.info("Юзер из репозитория по логину и паролю: " + user.getLogin() + " " + user.getPassword());
         if (user != null) {
             logger.info("проверяем пароль " + user.getPassword() + " " + password);
             if (passwordEncoder.matches(password, user.getPassword())) {
+                logger.info("возвращаем юзера, пароль совпал");
                 return user;
             } else{
-                throw new IllegalParamException("incorrect username or password");
+                throw new IllegalParamException("incorrect password");
             }
         } else {
-            throw new IllegalParamException("incorrect username or password");
+            throw new IllegalParamException("incorrect username");
         }
     }
 

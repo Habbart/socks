@@ -6,6 +6,7 @@ import com.denisyan.socks_must_flow.validators.jwt.JwtProvider;
 import com.denisyan.socks_must_flow.entity.User;
 import com.denisyan.socks_must_flow.security.AuthToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +40,13 @@ public class AuthController {
      */
     @PostMapping("/auth")
     public AuthToken authUser(@RequestBody @Valid User user){
+        User confirmedUser = userService.findByLoginAndPassword(user.getLogin(), user.getPassword());
+        String token = jwtProvider.generateToken(confirmedUser.getLogin());
+        return new AuthToken(token);
+    }
+
+    @GetMapping("/auth")
+    public AuthToken authUserByLoginAndPassword(@RequestBody @Valid User user){
         User confirmedUser = userService.findByLoginAndPassword(user.getLogin(), user.getPassword());
         String token = jwtProvider.generateToken(confirmedUser.getLogin());
         return new AuthToken(token);

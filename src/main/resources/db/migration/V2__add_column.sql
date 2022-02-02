@@ -1,2 +1,2 @@
-ALTER TABLE socks Add column has_picture boolean after quantity;
+ALTER TABLE socks add column has_picture boolean;
 

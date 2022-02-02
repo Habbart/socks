@@ -1,7 +1,8 @@
-package com.denisyan.socks_must_flow.views.info;
+package com.denisyan.socks_must_flow.views.user_views;
 
-import com.denisyan.socks_must_flow.data.entity.SamplePerson;
-import com.denisyan.socks_must_flow.data.service.SamplePersonService;
+
+import com.denisyan.socks_must_flow.entity.User;
+import com.denisyan.socks_must_flow.service.UserService;
 import com.denisyan.socks_must_flow.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -17,19 +18,25 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@PageTitle("/info")
-@Route(value = "/info", layout = MainLayout.class)
-@Uses(Icon.class)
-public class InfoView extends Div {
 
-    private TextField firstName = new TextField("First Name");
-    private TextField comment = new TextField("comment");
-    private TextField lastName = new TextField("Last name");
+import javax.annotation.security.RolesAllowed;
+
+@PageTitle("registration")
+@Route(value = "/registration", layout = MainLayout.class)
+@Uses(Icon.class)
+@RolesAllowed("CHIEF_WAREHOUSE")
+public class RegistrationOfNewUser extends Div {
+
+    private TextField name = new TextField("First Name");
+    private TextField surname = new TextField("Last name");
+    private TextField login = new TextField("Login");
+    private PasswordField password = new PasswordField("Password");
     private EmailField email = new EmailField("Email address");
     private DatePicker dateOfBirth = new DatePicker("Birthday");
     private PhoneNumberField phone = new PhoneNumberField("Phone number");
@@ -38,9 +45,9 @@ public class InfoView extends Div {
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
 
-    private Binder<SamplePerson> binder = new Binder(SamplePerson.class);
+    private Binder<User> binder = new Binder(User.class);
 
-    public InfoView(SamplePersonService personService) {
+    public RegistrationOfNewUser(UserService userService) {
         addClassName("info-view");
 
         add(createTitle());
@@ -52,14 +59,14 @@ public class InfoView extends Div {
 
         cancel.addClickListener(e -> clearForm());
         save.addClickListener(e -> {
-            personService.update(binder.getBean());
+            userService.saveUser(binder.getBean());
             Notification.show(binder.getBean().getClass().getSimpleName() + " details stored.");
             clearForm();
         });
     }
 
     private void clearForm() {
-        binder.setBean(new SamplePerson());
+        binder.setBean(new User());
     }
 
     private Component createTitle() {
@@ -69,7 +76,7 @@ public class InfoView extends Div {
     private Component createFormLayout() {
         FormLayout formLayout = new FormLayout();
         email.setErrorMessage("Please enter a valid email address");
-        formLayout.add(firstName, lastName, dateOfBirth, phone, email, occupation);
+        formLayout.add(name, surname, login, password, dateOfBirth, phone, email, occupation);
         return formLayout;
     }
 
@@ -92,7 +99,7 @@ public class InfoView extends Div {
             countryCode.setPlaceholder("Country");
             countryCode.setPattern("\\+\\d*");
             countryCode.setPreventInvalidInput(true);
-            countryCode.setItems("+354", "+91", "+62", "+98", "+964", "+353", "+44", "+972", "+39", "+225");
+            countryCode.setItems("+7", "+91", "+62", "+98", "+964", "+353", "+44", "+972", "+39", "+225");
             countryCode.addCustomValueSetListener(e -> countryCode.setValue(e.getDetail()));
             number.setPattern("\\d*");
             number.setPreventInvalidInput(true);
