@@ -1,47 +1,69 @@
-# My App
+# socks
+## Технлогии
+### Spring Boot, Spring Data JPA, REST API, Git, Maven, Mockito, JUnit, Flyway, Spring Security. В процессе - UI на Vaadin, Docker.
 
-This project can be used as a starting point to create your own Vaadin application with Spring Boot.
-It contains all the necessary configuration and some placeholder files to get you started.
 
-## Running the application
+Тестовое задание для Raiffeisen DGTL, которое превратилось в пет проект по обучению новым технологиям.
 
-The project is a standard Maven project. To run it from the command line,
-type `mvnw` (Windows), or `./mvnw` (Mac & Linux), then open
-http://localhost:8080 in your browser.
+## Проблемы и решения
+Реализация была осуществлена в соответствии с требованиями headless REST API.
+Была применена методология разработки TDD, что позволило покрыть проект полностью тестами.
+В задании не было указано, но я добавил список доступных цветов, что позволило также фильтровать некорректные данные по цвету при приходе носков,
+а также не допустить задвоения позиций (к примеру будет введен цвет "Синий" и "синий").
+Далее уже вне тестового задания, а целях обучения были добавлены:
+1. миграции БД через FlyWay
+2. подключен Spring Security - добавлена аутентификация по токену + роли кладовщика и начальника склада. Кладовщик может только смотреть остатки, начальник склада может добавлять новых пользователей и списывать/принимать носки.
+3. В процессе: Vaadin - UI для регистрации/логина + работы с остатками на складе
+4. В плане: запаковка в Docker
 
-You can also import the project to your IDE of choice as you would with any
-Maven project. Read more on [how to import Vaadin projects to different 
-IDEs](https://vaadin.com/docs/latest/flow/guide/step-by-step/importing) (Eclipse, IntelliJ IDEA, NetBeans, and VS Code).
 
-## Deploying to Production
+## Требования
+Реализовать приложение для автоматизации учёта носков на складе магазина. Кладовщик должен иметь возможность:
+учесть приход и отпуск носков;
+узнать общее количество носков определенного цвета и состава в данный момент времени.
+Внешний интерфейс приложения представлен в виде HTTP API (REST, если хочется).
 
-To create a production build, call `mvnw clean package -Pproduction` (Windows),
-or `./mvnw clean package -Pproduction` (Mac & Linux).
-This will build a JAR file with all the dependencies and front-end resources,
-ready to be deployed. The file can be found in the `target` folder after the build completes.
+### Список URL HTTP-методов
+#### POST /api/socks/income
+Регистрирует приход носков на склад.
 
-Once the JAR file is built, you can run it using
-`java -jar target/myapp-1.0-SNAPSHOT.jar`
+#### Параметры запроса передаются в теле запроса в виде JSON-объекта со следующими атрибутами:
 
-## Project structure
+color — цвет носков, строка (например, black, red, yellow);
+cottonPart — процентное содержание хлопка в составе носков, целое число от 0 до 100 (например, 30, 18, 42);
+quantity — количество пар носков, целое число больше 0.
+Результаты:
 
-- `MainLayout.java` in `src/main/java` contains the navigation setup (i.e., the
-  side/top bar and the main menu). This setup uses
-  [App Layout](https://vaadin.com/components/vaadin-app-layout).
-- `views` package in `src/main/java` contains the server-side Java views of your application.
-- `views` folder in `frontend/` contains the client-side JavaScript views of your application.
-- `themes` folder in `frontend/` contains the custom CSS styles.
+HTTP 200 — удалось добавить приход;
 
-## Useful links
+HTTP 400 — параметры запроса отсутствуют или имеют некорректный формат;
 
-- Read the documentation at [vaadin.com/docs](https://vaadin.com/docs).
-- Follow the tutorials at [vaadin.com/tutorials](https://vaadin.com/tutorials).
-- Watch training videos and get certified at [vaadin.com/learn/training](https://vaadin.com/learn/training).
-- Create new projects at [start.vaadin.com](https://start.vaadin.com/).
-- Search UI components and their usage examples at [vaadin.com/components](https://vaadin.com/components).
-- View use case applications that demonstrate Vaadin capabilities at [vaadin.com/examples-and-demos](https://vaadin.com/examples-and-demos).
-- Discover Vaadin's set of CSS utility classes that enable building any UI without custom CSS in the [docs](https://vaadin.com/docs/latest/ds/foundation/utility-classes). 
-- Find a collection of solutions to common use cases in [Vaadin Cookbook](https://cookbook.vaadin.com/).
-- Find Add-ons at [vaadin.com/directory](https://vaadin.com/directory).
-- Ask questions on [Stack Overflow](https://stackoverflow.com/questions/tagged/vaadin) or join our [Discord channel](https://discord.gg/MYFq5RTbBn).
-- Report issues, create pull requests in [GitHub](https://github.com/vaadin/platform).
+HTTP 500 — произошла ошибка, не зависящая от вызывающей стороны (например, база данных недоступна).
+
+#### POST /api/socks/outcome
+Регистрирует отпуск носков со склада. Здесь параметры и результаты аналогичные, но общее количество носков указанного цвета и состава не увеличивается, а уменьшается.
+
+#### GET /api/socks
+Возвращает общее количество носков на складе, соответствующих переданным в параметрах критериям запроса.
+
+Параметры запроса передаются в URL:
+
+color — цвет носков, строка;
+operation — оператор сравнения значения количества хлопка в составе носков, одно значение из: moreThan, lessThan, equal;
+cottonPart — значение процента хлопка в составе носков из сравнения.
+
+Результаты:
+
+HTTP 200 — запрос выполнен, результат в теле ответа в виде строкового представления целого числа;
+
+HTTP 400 — параметры запроса отсутствуют или имеют некорректный формат;
+
+HTTP 500 — произошла ошибка, не зависящая от вызывающей стороны (например, база данных недоступна).
+
+Примеры запросов:
+
+/api/socks?color=red&operation=moreThan&cottonPart=90 — должен вернуть общее количество красных носков с долей хлопка более 90%;
+
+/api/socks?color=black&operation=lessThan?cottonPart=10 — должен вернуть общее количество черных носков с долей хлопка менее 10%.
+
+Для хранения данных системы можно использовать любую реляционную базу данных. Схему БД желательно хранить в репозитории в любом удобном виде.
