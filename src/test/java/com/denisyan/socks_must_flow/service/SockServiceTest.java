@@ -5,6 +5,7 @@ import com.denisyan.socks_must_flow.dao.SocksRepository;
 import com.denisyan.socks_must_flow.entity.Sock;
 import com.denisyan.socks_must_flow.exception_handler.SocksNotFound;
 import com.denisyan.socks_must_flow.service.SocksService;
+import com.vaadin.pro.licensechecker.Product;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
@@ -34,6 +37,7 @@ public class SockServiceTest {
 
         @Test
         public void getAllSocks(){
+
 
                 given(socksRepository.getByColorAndCottonPartEquals("black", 50))
                         .willReturn(new Sock("black", 50, 150)); // проверка для условия equal

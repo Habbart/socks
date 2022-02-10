@@ -41,4 +41,11 @@ class UserRepositoryTest {
         assertNull(user);
 
     }
+
+    @Test
+    void existing_of_superUser() {
+        User user = userRepository.findByLogin("admin");
+        assertNotNull(user);
+
+    }
 }

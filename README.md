@@ -1,5 +1,5 @@
 # socks
-## Технлогии
+## Технологии
 ### Spring Boot, Spring Data JPA, REST API, Git, Maven, Mockito, JUnit, Flyway, Spring Security. В процессе - UI на Vaadin, Docker.
 
 
