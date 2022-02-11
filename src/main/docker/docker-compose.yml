@@ -2,9 +2,9 @@ version: '2'
 
 services:
   app:
-    image: 'docker-spring-boot-postgres:latest'
-    build:
-      context: .
+    image: 'habbart/socks_must_flow:latest'
+#    build:
+#      context: .
     container_name: app
     ports:
       - "8080:8080"
