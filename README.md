@@ -1,6 +1,6 @@
 # socks
 ## Технологии
-### Spring Boot, Spring Data JPA, REST API, Git, Maven, Mockito, JUnit, Flyway, Spring Security. В процессе - UI на Vaadin, Docker.
+### Spring Boot, Spring Data JPA, REST API, Git, Maven, Mockito, JUnit, Flyway, Spring Security, Docker. В процессе - UI на Vaadin.
 
 
 Тестовое задание для Raiffeisen DGTL, которое превратилось в пет проект по обучению новым технологиям.
@@ -13,8 +13,9 @@
 Далее уже вне тестового задания, а целях обучения были добавлены:
 1. миграции БД через FlyWay
 2. подключен Spring Security - добавлена аутентификация по токену + роли кладовщика и начальника склада. Кладовщик может только смотреть остатки, начальник склада может добавлять новых пользователей и списывать/принимать носки.
-3. В процессе: Vaadin - UI для регистрации/логина + работы с остатками на складе
-4. В плане: запаковка в Docker
+3. Приложени запаковано в docker-compose[ссылка на docker-compose.yaml](https://github.com/Habbart/socks/blob/main/src/main/docker/docker-compose.yml) 
+4. В процессе: Vaadin - UI для регистрации/логина + работы с остатками на складе
+
 
 
 ## Требования
