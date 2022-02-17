@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class GlobalExceptionHandlerTest {
+class GlobalExceptionHandlerTest {
 
     GlobalExceptionHandler handler;
 
@@ -22,7 +22,7 @@ public class GlobalExceptionHandlerTest {
     void noSuchSocks_should_return_NoSuchSocksMessage() {
         SocksNotFound socksNotFound = new SocksNotFound("No such socks");
 
-        ResponseEntity<String> stringResponseEntity = handler.NoSuchSocks(socksNotFound);
+        ResponseEntity<String> stringResponseEntity = handler.noSuchSocks(socksNotFound);
 
         String expect = "No such socks";
         assertEquals(expect, stringResponseEntity.getBody());
@@ -32,7 +32,7 @@ public class GlobalExceptionHandlerTest {
     void noSuchSocks_should_return_404NoSuchSocks() {
         SocksNotFound socksNotFound = new SocksNotFound("No such socks");
 
-        ResponseEntity<String> stringResponseEntity = handler.NoSuchSocks(socksNotFound);
+        ResponseEntity<String> stringResponseEntity = handler.noSuchSocks(socksNotFound);
 
         HttpStatus expectedStatus = HttpStatus.NOT_FOUND;
         assertEquals(expectedStatus, stringResponseEntity.getStatusCode());
@@ -42,7 +42,7 @@ public class GlobalExceptionHandlerTest {
     void illegalParamException_should_return_NoSuchParamMessage() {
         IllegalParamException illegalParamException = new IllegalParamException("No such param");
 
-        ResponseEntity<String> stringResponseEntity = handler.IllegalParamException(illegalParamException);
+        ResponseEntity<String> stringResponseEntity = handler.illegalParamException(illegalParamException);
 
         String expect = "No such param";
         assertEquals(expect, stringResponseEntity.getBody());
@@ -52,7 +52,7 @@ public class GlobalExceptionHandlerTest {
     void illegalParamException_should_return_badRequest() {
         IllegalParamException illegalParamException = new IllegalParamException("No such param");
 
-        ResponseEntity<String> stringResponseEntity = handler.IllegalParamException(illegalParamException);
+        ResponseEntity<String> stringResponseEntity = handler.illegalParamException(illegalParamException);
 
         HttpStatus expectedStatus = HttpStatus.BAD_REQUEST;
         assertEquals(expectedStatus, stringResponseEntity.getStatusCode());
@@ -63,7 +63,7 @@ public class GlobalExceptionHandlerTest {
 
         LoginAlreadyExistException loginAlreadyExistException = new LoginAlreadyExistException("Login already exist");
 
-        ResponseEntity<String> stringResponseEntity = handler.LoginAlreadyExistException(loginAlreadyExistException);
+        ResponseEntity<String> stringResponseEntity = handler.loginAlreadyExistException(loginAlreadyExistException);
 
         HttpStatus expectedStatus = HttpStatus.BAD_REQUEST;
         assertEquals(expectedStatus, stringResponseEntity.getStatusCode());
@@ -75,7 +75,7 @@ public class GlobalExceptionHandlerTest {
 
         LoginAlreadyExistException loginAlreadyExistException = new LoginAlreadyExistException("Login already exist");
 
-        ResponseEntity<String> stringResponseEntity = handler.LoginAlreadyExistException(loginAlreadyExistException);
+        ResponseEntity<String> stringResponseEntity = handler.loginAlreadyExistException(loginAlreadyExistException);
 
         String expect = "Login already exist";
         assertEquals(expect, stringResponseEntity.getBody());

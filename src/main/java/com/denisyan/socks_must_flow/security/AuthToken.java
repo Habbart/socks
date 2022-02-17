@@ -1,6 +1,8 @@
 package com.denisyan.socks_must_flow.security;
 
-
+/**
+ * Authorization token entity
+ */
 
 public class AuthToken {
 

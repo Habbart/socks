@@ -20,6 +20,11 @@ import java.io.IOException;
 import static org.springframework.util.StringUtils.hasText;
 
 
+/**
+ * Extends standard Generic Filter Bean from Spring Security framework
+ * For more information check Spring Security documentation
+ */
+
 @Component
 public class JwtFilter extends GenericFilterBean {
 
@@ -29,7 +34,7 @@ public class JwtFilter extends GenericFilterBean {
     public static final String BEARER = "Bearer ";
 
     @Autowired
-    private JwtProvider jwtProvider;
+    private JwtValidator validator;
 
     @Autowired
     private WarehouseUserDetailsService warehouseUserDetailsService;
@@ -38,9 +43,9 @@ public class JwtFilter extends GenericFilterBean {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String token = getTokenFromRequest((HttpServletRequest) servletRequest);
         logger.debug("servletRequest: " + servletRequest);
-        if (token != null && jwtProvider.validateToken(token)) {
+        if (token != null && validator.validateToken(token)) {
             logger.info("зашли в фильтр токена");
-            String userLogin = jwtProvider.getLoginFromToken(token);
+            String userLogin = validator.getLoginFromToken(token);
             UserDetails warehouseUserDetails = warehouseUserDetailsService.loadUserByUsername(userLogin);
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(warehouseUserDetails, null, warehouseUserDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);

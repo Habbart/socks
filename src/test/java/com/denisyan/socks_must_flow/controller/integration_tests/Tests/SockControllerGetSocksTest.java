@@ -8,20 +8,16 @@ import com.denisyan.socks_must_flow.dao.SocksRepository;
 import com.denisyan.socks_must_flow.entity.Sock;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
@@ -37,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc(addFilters = false)
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
-public class SockControllerTestGetSocks {
+class SockControllerGetSocksTest {
 
     private static final Logger logger = LoggerFactory.getLogger("SockControllerTestGetSocks");
 
@@ -53,7 +49,7 @@ public class SockControllerTestGetSocks {
     }
 
     @Test
-    public void givenSocks_whenPostSockAndGetSock_thenStatus200() throws Exception {
+    void givenSocks_whenPostSockAndGetSock_thenStatus200() throws Exception {
         mockMvc.perform(post("/api/socks/income").
                         contentType(MediaType.APPLICATION_JSON)
                         .content(TestHelper.SOCK_GREEN_50_JSON))
@@ -75,7 +71,7 @@ public class SockControllerTestGetSocks {
     }
 
     @Test
-    public void givenIncorrectCottonPart_whenGetSocks_thenStatus400() throws Exception {
+    void givenIncorrectCottonPart_whenGetSocks_thenStatus400() throws Exception {
 
         mockMvc.perform(get("/api/socks?color=red&operation=moreThan&cottonPart=110")
                         .accept(MediaType.APPLICATION_JSON))
@@ -87,7 +83,7 @@ public class SockControllerTestGetSocks {
 
     }
     @Test
-    public void givenIncorrectColor_whenGetSocks_thenStatus400() throws Exception {
+    void givenIncorrectColor_whenGetSocks_thenStatus400() throws Exception {
 
         mockMvc.perform(get("/api/socks?color=ssssss&operation=moreThan&cottonPart=80")
                         .accept(MediaType.APPLICATION_JSON))
@@ -95,7 +91,7 @@ public class SockControllerTestGetSocks {
 
     }
     @Test
-    public void givenIncorrectOperation_whenGetSocks_thenStatus400() throws Exception {
+    void givenIncorrectOperation_whenGetSocks_thenStatus400() throws Exception {
 
         mockMvc.perform(get("/api/socks?color=red&operation=aaaaa&cottonPart=80")
                         .accept(MediaType.APPLICATION_JSON))
@@ -104,7 +100,7 @@ public class SockControllerTestGetSocks {
     }
 
     @Test
-    public void givenEmptyURL_whenGetSocks_thenStatus400() throws Exception {
+    void givenEmptyURL_whenGetSocks_thenStatus400() throws Exception {
 
         mockMvc.perform(get("/api/socks?")
                         .accept(MediaType.APPLICATION_JSON))

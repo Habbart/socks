@@ -1,0 +1,15 @@
+com.denisyan.socks_must_flow
+com.denisyan.socks_must_flow.controller
+com.denisyan.socks_must_flow.controller.integration_tests
+com.denisyan.socks_must_flow.dao
+com.denisyan.socks_must_flow.DTO
+com.denisyan.socks_must_flow.entity
+com.denisyan.socks_must_flow.exception_handler
+com.denisyan.socks_must_flow.helper
+com.denisyan.socks_must_flow.security
+com.denisyan.socks_must_flow.service
+com.denisyan.socks_must_flow.validators
+com.denisyan.socks_must_flow.validators.jwt
+com.denisyan.socks_must_flow.views
+com.denisyan.socks_must_flow.views.about
+com.denisyan.socks_must_flow.views.user_views

@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
-public class SockServiceTest {
+class SockServiceTest {
 
 
         @MockBean
@@ -36,7 +36,7 @@ public class SockServiceTest {
 
 
         @Test
-        public void getAllSocks(){
+        void getAllSocks(){
 
 
                 given(socksRepository.getByColorAndCottonPartEquals("black", 50))
@@ -67,7 +67,7 @@ public class SockServiceTest {
 
 
         @Test
-        public void addSocks_socksNotExist(){
+        void addSocks_socksNotExist(){
                 Sock black = new Sock(1, "black", 40, 40);
 
                 socksService.addSocks(black);
@@ -76,7 +76,7 @@ public class SockServiceTest {
         }
 
         @Test
-        public void addSocks_socksExist(){
+        void addSocks_socksExist(){
                 Sock black = new Sock(1, "black", 40, 40);
                 given(socksRepository.existsByColorAndAndCottonPart("black", 40)).willReturn(true);
                 given(socksRepository.getByColorAndCottonPartEquals("black", 40))
@@ -92,7 +92,7 @@ public class SockServiceTest {
         }
 
         @Test
-        public void removeSocks_NotExist_ShouldThrowException() {
+        void removeSocks_NotExist_ShouldThrowException() {
                 Exception exception = Assert.assertThrows(SocksNotFound.class, () ->{
                         socksService.removeSocks(new Sock("red", 50, 50));
                 });
@@ -105,7 +105,7 @@ public class SockServiceTest {
         }
 
         @Test
-        public void removeSocks_Exist() {
+        void removeSocks_Exist() {
                 Sock sockForRemove = new Sock(1, "red", 50, 50);
                 given(socksRepository.existsByColorAndAndCottonPart("red", 50)).willReturn(true);
                 given(socksRepository.getByColorAndCottonPartEquals("red", 50)).willReturn(new Sock(1, "red", 50, 40));

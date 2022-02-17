@@ -1,5 +1,9 @@
 package com.denisyan.socks_must_flow.helper;
 
+/**
+ * Operation for filtering cotton percentage in socks
+ */
+
 public enum Operation {
     MORE_THAN("morethan"),
     LESS_THAN("lessthan"),

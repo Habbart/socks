@@ -14,6 +14,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.logging.Logger;
 
+/**
+ * Service responsible for work with users and roles
+ */
+
 @Service
 public class UserService {
 
@@ -28,11 +32,11 @@ public class UserService {
 
 
     /**
-     * Сохраняет нового пользователя в базу данных.
-     * Если пользователь с таким логином уже существует, то бросает исключение.
+     * Save new user in repository
+     * If login already exist - throw LoginAlreadyExist exception
      *
-     * @param user
-     * @return
+     * @param user which you want to save
+     * @return user which was saved
      */
     public User saveUser(User user) {
         if(findByLogin(user.getLogin()) !=null) throw new LoginAlreadyExistException("Login already exist");
@@ -43,21 +47,21 @@ public class UserService {
     }
 
     /**
-     * Поиск пользователя в базе данных по логину.
+     * Find login in repo by login
      *
-     * @param login
-     * @return
+     * @param login which you want to find
+     * @return user if it was found by this login
      */
     public User findByLogin(String login) {
         return userRepository.findByLogin(login);
     }
 
     /**
-     * Поиск в базе данных пользователя по логину и паролю.
-     * Если переданный пароль или логин не совпадает с сохраненным в базе данных, то бросает исключение
-     * @param login
-     * @param password
-     * @return
+     * Find user in repo by Login and Password
+     * If login or password are incorrect or can't be found in repo - throw IllegalParam exception
+     * @param login which you want to find
+     * @param password in security purpose
+     * @return user if exist with this login and password
      */
     public User findByLoginAndPassword(String login, String password) {
         User user = userRepository.findByLogin(login);

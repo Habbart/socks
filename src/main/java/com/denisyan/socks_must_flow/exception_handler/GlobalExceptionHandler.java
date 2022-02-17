@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity<String> NoSuchSocks(SocksNotFound exception){
+    public ResponseEntity<String> noSuchSocks(SocksNotFound exception){
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    public ResponseEntity<String> IllegalParamException(IllegalParamException exception){
+    public ResponseEntity<String> illegalParamException(IllegalParamException exception){
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    public ResponseEntity<String> LoginAlreadyExistException(LoginAlreadyExistException exception){
+    public ResponseEntity<String> loginAlreadyExistException(LoginAlreadyExistException exception){
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 

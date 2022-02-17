@@ -9,6 +9,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * realization of standard Spring Security UserDetails interface
+ * You can check Spring Security documentation for more information
+ */
+
 public class WarehouseUserDetails implements UserDetails {
 
     private String login;

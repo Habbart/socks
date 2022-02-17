@@ -12,6 +12,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Security configuration class.
+ * If need to add more strict rules for some methods - it is here
+ */
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -20,29 +24,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtFilter jwtFilter;
 
     /**
-     * Security для допуска к спианию носков
-     * CHIEF_OF_WAREHOUSE - доступны все действия
-     * ROLE_WAREHOUSEMAN - может только смотреть остатки
-     * @param http
-     * @throws Exception
+     * Security configuration for removing or adding socks into warehouse stock
+     * CHIEF_OF_WAREHOUSE - all methods allowed
+     * ROLE_WAREHOUSEMAN - can get only quantity of stock
+     * @param http security params
+     * @throws Exception shouldn't be thrown
      */
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        String chiefOfWarehouse = "CHIEF_OF_WAREHOUSE";
         http
                 .httpBasic().disable()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/socks/income").hasRole("CHIEF_OF_WAREHOUSE")
-                .antMatchers("/api/socks/outcome").hasRole( "CHIEF_OF_WAREHOUSE")
-                .antMatchers("/register").hasRole("CHIEF_OF_WAREHOUSE")
+                .antMatchers("/api/socks/income").hasRole(chiefOfWarehouse)
+                .antMatchers("/api/socks/outcome").hasRole(chiefOfWarehouse)
+                .antMatchers("/register").hasRole(chiefOfWarehouse)
                 .antMatchers("/api/socks/**").permitAll()
                 .antMatchers("/auth").permitAll()
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-//                .addFilter(jwtFilter);
     }
 
     @Bean

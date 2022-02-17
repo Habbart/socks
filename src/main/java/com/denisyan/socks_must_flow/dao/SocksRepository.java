@@ -8,7 +8,9 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.List;
 
-
+/**
+ * Repo for socks
+ */
 public interface SocksRepository extends JpaRepository<Sock, Integer> {
 
     @Query("select (count(s) > 0) from Sock s where s.color = ?1 and s.cottonPart = ?2")

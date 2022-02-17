@@ -3,6 +3,7 @@ package com.denisyan.socks_must_flow.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+
 @Entity
 @Table(name = "role_table")
 public class Role {

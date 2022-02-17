@@ -10,6 +10,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.logging.Logger;
 
+/**
+ * Realization of standard Spring Security UserDetailService interface
+ * You can check Spring Security documentation for more information
+ */
+
 @Component
 public class WarehouseUserDetailsService implements UserDetailsService {
 

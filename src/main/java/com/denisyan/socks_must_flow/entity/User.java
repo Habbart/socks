@@ -38,7 +38,6 @@ public class User {
     }
 
     public User(String name, String surname, String login, String password) {
-        this.id = id;
         this.name = name;
         this.surname = surname;
         this.login = login;

@@ -10,10 +10,14 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.Arrays;
 import java.util.Locale;
 
+/**
+ * annotation to validate Color parametr
+ * Depends from Allowed Color Enum
+ */
 
 public class ColorValidator implements ConstraintValidator<IColorValidator, String> {
 
-    private final static Logger logger = LoggerFactory.getLogger("IColorValidator logger");
+    private final Logger logger = LoggerFactory.getLogger("IColorValidator logger");
 
 
     @Override
@@ -25,7 +29,7 @@ public class ColorValidator implements ConstraintValidator<IColorValidator, Stri
 
     @Override
     public void initialize(IColorValidator constraintAnnotation) {
-
+        //no need to initialize
     }
 
 

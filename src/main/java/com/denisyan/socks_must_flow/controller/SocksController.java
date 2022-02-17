@@ -13,6 +13,10 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.List;
 
+/**
+ * Controller for add, remove and get stock of socks which available on warehouse
+ */
+
 @RestController
 public class SocksController {
 
@@ -22,13 +26,14 @@ public class SocksController {
     private SocksService socksService;
 
     /**
-     * Получение списка всех носков на складе в соответствии с переданными параметрами.
-     * Доступно для всех ролей
-     *
-     * @param color
-     * @param operation
-     * @param cottonPart
-     * @return
+     * Get list of all Socks from warehouse stock according to parameters.
+     * Allowed to all roles
+     * sample of request:
+     * /api/socks?color=red&operation=moreThan&cottonPart=90 — should return red socks with cotton part more than 90%
+     * @param color - allowed color
+     * @param operation - moreThan, lessThan, equals
+     * @param cottonPart - 0...100 cotton part in socks
+     * @return list of socks which suits with params
      */
     @GetMapping("/api/socks")
     public List<Sock> getAllSocks(@Valid @RequestParam(value = "color") String color,
@@ -40,10 +45,10 @@ public class SocksController {
     }
 
     /**
-     * Приходование носков на склад.
-     * Допступно chief_warehouse
+     * Add socks to warehouse stock
+     * Allowed for Chief of warehouse
      *
-     * @param sock
+     * @param sock which was added
      */
     @PostMapping("/api/socks/income")
     public Sock addSocks(@Valid @RequestBody Sock sock) {
@@ -51,12 +56,12 @@ public class SocksController {
     }
 
     /**
-     * списание носков со склада
-     * при отсутствии носков бросает исключение
-     * если носков списать надо больше, то списывает только доступное значение
-     * Доступно chief_warehouse
+     * Remove socks from warehouse
+     * If socks can't be found - throw the exception
+     * If you want to remove more socks than warehouse has - remove only possible quantity of socks, so this kind of socks became 0
+     * Allowed only for Chief of Warehouse
      *
-     * @param sock
+     * @param sock which was removed
      */
     @PostMapping("/api/socks/outcome")
     public Sock removeSocks(@Valid @RequestBody Sock sock) {

@@ -17,13 +17,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc(addFilters = false)
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
-public class SockControllerValidationTest {
+class SockControllerValidationTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void incorrectColorParams_addSocks_Expect400BadRequest() throws Exception {
+    void incorrectColorParams_addSocks_Expect400BadRequest() throws Exception {
 
         mockMvc.perform(get("/api/socks?color=INCORRECTCOLOR&operation=equal&cottonPart=50"))
                 .andExpect(status().isBadRequest());

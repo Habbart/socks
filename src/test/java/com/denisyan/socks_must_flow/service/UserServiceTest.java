@@ -50,9 +50,11 @@ class UserServiceTest {
 
     @Test
     void findByLogin() {
+        //todo дописать тесты
     }
 
     @Test
     void findByLoginAndPassword() {
+        //todo дописать тесты
     }
 }

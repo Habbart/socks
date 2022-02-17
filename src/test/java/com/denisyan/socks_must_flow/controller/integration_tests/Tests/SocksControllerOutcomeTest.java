@@ -4,20 +4,16 @@ import com.denisyan.socks_must_flow.Application;
 import com.denisyan.socks_must_flow.controller.integration_tests.TestHelper;
 import com.denisyan.socks_must_flow.dao.SocksRepository;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 
@@ -30,7 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc(addFilters = false)
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
-public class SocksControllerTestOutcome {
+class SocksControllerOutcomeTest {
 
     private final static Logger logger = LoggerFactory.getLogger("SocksControllerTestOutcome");
 
@@ -47,7 +43,7 @@ public class SocksControllerTestOutcome {
     }
 
     @Test
-    public void givenSocks_whenPostSockOutcome_thenStatus400() throws Exception {
+    void givenSocks_whenPostSockOutcome_thenStatus400() throws Exception {
 
         mockMvc.perform(post("/api/socks/income")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -61,7 +57,7 @@ public class SocksControllerTestOutcome {
     }
 
     @Test
-    public void givenSocks_whenPostSockOutcome_thenStatus200() throws Exception {
+    void givenSocks_whenPostSockOutcome_thenStatus200() throws Exception {
         mockMvc.perform(post("/api/socks/income")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(TestHelper.SOCK_GREEN_50_JSON))
@@ -74,7 +70,7 @@ public class SocksControllerTestOutcome {
     }
 
     @Test
-    public void givenOutOfRangeCottonPart_whenPostSockOutcome_thenStatus400() throws Exception {
+    void givenOutOfRangeCottonPart_whenPostSockOutcome_thenStatus400() throws Exception {
         mockMvc.perform(post("/api/socks/outcome").
                         contentType(MediaType.APPLICATION_JSON)
                         .content(TestHelper.SOCK_GREEN_OUT_OF_RANGE_COTTON_PART_JSON))
@@ -83,7 +79,7 @@ public class SocksControllerTestOutcome {
 
 
     @Test
-    public void givenColorNotExist_whenPostSockOutcome_thenStatus400() throws Exception {
+    void givenColorNotExist_whenPostSockOutcome_thenStatus400() throws Exception {
         mockMvc.perform(post("/api/socks/outcome").
                         contentType(MediaType.APPLICATION_JSON)
                         .content(TestHelper.SOCK_COLOR_NOT_EXIST_50_JSON))
@@ -91,7 +87,7 @@ public class SocksControllerTestOutcome {
     }
 
     @Test
-    public void givenEmptyColorAndZeroQuantity_whenPostSockOutcome_thenStatus400() throws Exception {
+    void givenEmptyColorAndZeroQuantity_whenPostSockOutcome_thenStatus400() throws Exception {
         mockMvc.perform(post("/api/socks/outcome").
                         contentType(MediaType.APPLICATION_JSON)
                         .content(TestHelper.SOCK_EMPTY_COLOR_AND_ZERO_QUANTITY))
@@ -99,7 +95,7 @@ public class SocksControllerTestOutcome {
     }
 
     @Test
-    public void givenNegativeQuantity_whenPostSockOutcome_thenStatus400() throws Exception {
+    void givenNegativeQuantity_whenPostSockOutcome_thenStatus400() throws Exception {
         mockMvc.perform(post("/api/socks/outcome").
                         contentType(MediaType.APPLICATION_JSON)
                         .content(TestHelper.SOCK_GREEN_50_NEGATIVE_QUANTITY_JSON))
@@ -107,7 +103,7 @@ public class SocksControllerTestOutcome {
     }
 
     @Test
-    public void givenEmptyBody_whenPostSockOutcome_thenStatus400() throws Exception {
+    void givenEmptyBody_whenPostSockOutcome_thenStatus400() throws Exception {
         mockMvc.perform(post("/api/socks/outcome").
                         contentType(MediaType.APPLICATION_JSON)
                         .content(TestHelper.SOCK_EMPTY_BODY))
@@ -115,7 +111,7 @@ public class SocksControllerTestOutcome {
     }
 
     @Test
-    public void givenZeroQuantity_whenPostSockOutcome_thenStatus200() throws Exception {
+    void givenZeroQuantity_whenPostSockOutcome_thenStatus200() throws Exception {
 
         mockMvc.perform(post("/api/socks/income")
                         .contentType(MediaType.APPLICATION_JSON)

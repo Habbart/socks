@@ -14,7 +14,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = ColorValidator.class)
 public @interface IColorValidator {
 
-//    AllowedColors value() default AllowedColors.BLACK;
 
     String message() default "prohibited color, please check allowed color";
 

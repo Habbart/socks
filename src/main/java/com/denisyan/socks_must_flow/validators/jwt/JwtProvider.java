@@ -10,6 +10,11 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.logging.Logger;
 
+/**
+ * Create jw token and check if token valid
+ * Take secret word from properties to make jwt
+ */
+
 @Component
 public class JwtProvider {
 
@@ -18,7 +23,11 @@ public class JwtProvider {
     @Value("$(jwt.secret)")
     private String jwtSecret;
 
-
+    /**
+     * Generate token and return it
+     * @param login of user to whom you want generate token
+     * @return token
+     */
     public String generateToken(String login) {
         logger.info("генерируем токен");
         Date date = Date.from(LocalDate.now().plusDays(10).atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -29,28 +38,4 @@ public class JwtProvider {
                 .compact();
     }
 
-    public boolean validateToken(String token) {
-        try {
-            logger.info("зашли в валидацию токена. Токен:" + token);
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
-            return true;
-        } catch (ExpiredJwtException expEx) {
-            logger.severe("Token expired");
-        } catch (UnsupportedJwtException unsEx) {
-            logger.severe("Unsupported jwt");
-        } catch (MalformedJwtException mjEx) {
-            logger.severe("Malformed jwt");
-        } catch (SignatureException sEx) {
-            logger.severe("Invalid signature");
-        } catch (Exception e) {
-            logger.severe("invalid token");
-        }
-        return false;
-    }
-
-    public String getLoginFromToken(String token){
-        logger.info("берём логин из токена");
-        Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-        return claims.getSubject();
-    }
 }
