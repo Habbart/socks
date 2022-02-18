@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
 class SockControllerIncomeTest {
 
-    private static final Logger logger = LoggerFactory.getLogger("SockControllerTestIncome");
+    private final Logger logger = LoggerFactory.getLogger("SockControllerTestIncome");
 
 
     @Autowired

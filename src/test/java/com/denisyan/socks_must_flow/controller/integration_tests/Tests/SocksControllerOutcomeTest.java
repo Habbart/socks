@@ -43,7 +43,7 @@ class SocksControllerOutcomeTest {
     }
 
     @Test
-    void givenSocks_whenPostSockOutcome_thenStatus400() throws Exception {
+    void givenSocks_whenPostSockOutcome_thenStatus200_1() throws Exception {
 
         mockMvc.perform(post("/api/socks/income")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -70,44 +70,44 @@ class SocksControllerOutcomeTest {
     }
 
     @Test
-    void givenOutOfRangeCottonPart_whenPostSockOutcome_thenStatus400() throws Exception {
+    void givenOutOfRangeCottonPart_whenPostSockOutcome_thenStatus404() throws Exception {
         mockMvc.perform(post("/api/socks/outcome").
                         contentType(MediaType.APPLICATION_JSON)
                         .content(TestHelper.SOCK_GREEN_OUT_OF_RANGE_COTTON_PART_JSON))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
 
 
     @Test
-    void givenColorNotExist_whenPostSockOutcome_thenStatus400() throws Exception {
+    void givenColorNotExist_whenPostSockOutcome_thenStatus404() throws Exception {
         mockMvc.perform(post("/api/socks/outcome").
                         contentType(MediaType.APPLICATION_JSON)
                         .content(TestHelper.SOCK_COLOR_NOT_EXIST_50_JSON))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
 
     @Test
-    void givenEmptyColorAndZeroQuantity_whenPostSockOutcome_thenStatus400() throws Exception {
+    void givenEmptyColorAndZeroQuantity_whenPostSockOutcome_thenStatus404() throws Exception {
         mockMvc.perform(post("/api/socks/outcome").
                         contentType(MediaType.APPLICATION_JSON)
                         .content(TestHelper.SOCK_EMPTY_COLOR_AND_ZERO_QUANTITY))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
 
     @Test
-    void givenNegativeQuantity_whenPostSockOutcome_thenStatus400() throws Exception {
+    void givenNegativeQuantity_whenPostSockOutcome_thenStatus404() throws Exception {
         mockMvc.perform(post("/api/socks/outcome").
                         contentType(MediaType.APPLICATION_JSON)
                         .content(TestHelper.SOCK_GREEN_50_NEGATIVE_QUANTITY_JSON))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
 
     @Test
-    void givenEmptyBody_whenPostSockOutcome_thenStatus400() throws Exception {
+    void givenEmptyBody_whenPostSockOutcome_thenStatus404() throws Exception {
         mockMvc.perform(post("/api/socks/outcome").
                         contentType(MediaType.APPLICATION_JSON)
                         .content(TestHelper.SOCK_EMPTY_BODY))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
 
     @Test

@@ -1,8 +1,10 @@
 package com.denisyan.socks_must_flow.controller;
 
 
+import com.denisyan.socks_must_flow.dto.SockDto;
 import com.denisyan.socks_must_flow.entity.Sock;
 import com.denisyan.socks_must_flow.service.SocksService;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +22,13 @@ import java.util.List;
 @RestController
 public class SocksController {
 
-    private final static Logger logger = LoggerFactory.getLogger("Controller Logger");
+    private final Logger logger = LoggerFactory.getLogger("Controller Logger");
 
     @Autowired
     private SocksService socksService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     /**
      * Get list of all Socks from warehouse stock according to parameters.
@@ -48,11 +53,15 @@ public class SocksController {
      * Add socks to warehouse stock
      * Allowed for Chief of warehouse
      *
-     * @param sock which was added
+     * @param sockDto which you want to add
+     * @return sockDto which was added
      */
     @PostMapping("/api/socks/income")
-    public Sock addSocks(@Valid @RequestBody Sock sock) {
-        return socksService.addSocks(sock);
+    public SockDto addSocks(@RequestBody SockDto sockDto) {
+        Sock sock = modelMapper.map(sockDto, Sock.class);
+        Sock sockFromService = socksService.addSocks(sock);
+
+        return modelMapper.map(sockFromService, SockDto.class);
     }
 
     /**
@@ -61,11 +70,15 @@ public class SocksController {
      * If you want to remove more socks than warehouse has - remove only possible quantity of socks, so this kind of socks became 0
      * Allowed only for Chief of Warehouse
      *
-     * @param sock which was removed
+     * @param sockDto which you want to remove
+     * @return sockDto which was removed
      */
     @PostMapping("/api/socks/outcome")
-    public Sock removeSocks(@Valid @RequestBody Sock sock) {
-        return socksService.removeSocks(sock);
+    public SockDto removeSocks(@Valid @RequestBody SockDto sockDto) {
+        Sock sock = modelMapper.map(sockDto, Sock.class);
+        Sock sockFromService = socksService.removeSocks(sock);
+
+        return modelMapper.map(sockFromService, SockDto.class);
     }
 
 
