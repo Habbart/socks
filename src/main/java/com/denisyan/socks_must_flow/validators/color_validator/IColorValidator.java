@@ -1,4 +1,4 @@
-package com.denisyan.socks_must_flow.validators;
+package com.denisyan.socks_must_flow.validators.color_validator;
 
 
 import javax.validation.Constraint;

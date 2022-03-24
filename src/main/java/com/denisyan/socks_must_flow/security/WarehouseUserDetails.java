@@ -20,6 +20,8 @@ public class WarehouseUserDetails implements UserDetails {
 
     private String password;
 
+    private boolean isBlocked;
+
     private Collection<? extends GrantedAuthority> grantedAuthorities;
 
     @Override
@@ -27,10 +29,11 @@ public class WarehouseUserDetails implements UserDetails {
         return grantedAuthorities;
     }
 
-    public static UserDetails fromEntityToWarehouseUserDetails(User user){
+    public static UserDetails fromEntityToWarehouseUserDetails(User user) {
         WarehouseUserDetails warehouseUserDetails = new WarehouseUserDetails();
         warehouseUserDetails.login = user.getLogin();
         warehouseUserDetails.password = user.getPassword();
+        warehouseUserDetails.isBlocked = user.isBlocked();
         warehouseUserDetails.grantedAuthorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getName()));
         return warehouseUserDetails;
     }
@@ -51,8 +54,8 @@ public class WarehouseUserDetails implements UserDetails {
     }
 
     @Override
-    public boolean isAccountNonLocked() { //todo Security добавить возможность блокирования аккаунта
-        return true;
+    public boolean isAccountNonLocked() {
+        return !isBlocked;
     }
 
     @Override

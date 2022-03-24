@@ -13,19 +13,19 @@ import javax.validation.ConstraintViolationException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity<String> noSuchSocks(SocksNotFound exception){
+    public ResponseEntity<String> noSuchSocks(SocksNotFound exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> illegalParamException(IllegalParamException exception){
+    public ResponseEntity<String> illegalParamException(IllegalParamException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> loginAlreadyExistException(LoginAlreadyExistException exception){
+    public ResponseEntity<String> loginAlreadyExistException(LoginAlreadyExistException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
@@ -34,10 +34,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException e) {
         return new ResponseEntity<>("not valid due to validation error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
     }
-
-
-
-
 
 
 }

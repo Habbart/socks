@@ -1,8 +1,11 @@
 package com.denisyan.socks_must_flow.entity;
 
 
-
-import com.denisyan.socks_must_flow.validators.IColorValidator;
+import com.denisyan.socks_must_flow.validators.color_validator.IColorValidator;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
@@ -12,6 +15,10 @@ import javax.validation.constraints.Min;
 
 @Entity
 @Table(name = "socks")
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
 public class Sock {
 
     @Id
@@ -34,23 +41,11 @@ public class Sock {
     @Column(name = "quantity")
     private int quantity;
 
-
-    public Sock() {
-    }
-
     public Sock(String color, int cottonPart, int quantity) {
         this.color = color;
         this.cottonPart = cottonPart;
         this.quantity = quantity;
     }
-
-    public Sock(int id, String color, int cottonPart, int quantity) {
-        this.id = id;
-        this.color = color;
-        this.cottonPart = cottonPart;
-        this.quantity = quantity;
-    }
-
 
     @Override
     public String toString() {
@@ -62,36 +57,5 @@ public class Sock {
                 '}';
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public int getCottonPart() {
-        return cottonPart;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public void setCottonPart(int cottonPart) {
-        this.cottonPart = cottonPart;
-    }
 
 }

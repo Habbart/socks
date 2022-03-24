@@ -1,6 +1,8 @@
 package com.denisyan.socks_must_flow.validators.jwt;
 
 import com.denisyan.socks_must_flow.security.WarehouseUserDetailsService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,31 +27,28 @@ import static org.springframework.util.StringUtils.hasText;
  * For more information check Spring Security documentation
  */
 
+@Slf4j
 @Component
+@RequiredArgsConstructor
 public class JwtFilter extends GenericFilterBean {
 
-    private final Logger logger = LoggerFactory.getLogger("JwtFilter Logger");
 
     public static final String AUTHORIZATION = "Authorization";
     public static final String BEARER = "Bearer ";
-
-    @Autowired
-    private JwtValidator validator;
-
-    @Autowired
-    private WarehouseUserDetailsService warehouseUserDetailsService;
+    private final JwtValidator validator;
+    private final WarehouseUserDetailsService warehouseUserDetailsService;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String token = getTokenFromRequest((HttpServletRequest) servletRequest);
-        logger.debug("servletRequest: " + servletRequest);
+        log.debug("servletRequest: " + servletRequest);
         if (token != null && validator.validateToken(token)) {
-            logger.info("зашли в фильтр токена");
+            log.debug("зашли в фильтр токена");
             String userLogin = validator.getLoginFromToken(token);
             UserDetails warehouseUserDetails = warehouseUserDetailsService.loadUserByUsername(userLogin);
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(warehouseUserDetails, null, warehouseUserDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);
-            logger.info("token: " + token + "username: " + userLogin);
+            log.debug("token: " + token + "username: " + userLogin);
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

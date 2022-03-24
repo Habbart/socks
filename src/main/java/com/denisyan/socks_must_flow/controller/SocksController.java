@@ -4,10 +4,9 @@ package com.denisyan.socks_must_flow.controller;
 import com.denisyan.socks_must_flow.dto.SockDto;
 import com.denisyan.socks_must_flow.entity.Sock;
 import com.denisyan.socks_must_flow.service.SocksService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,24 +18,23 @@ import java.util.List;
  * Controller for add, remove and get stock of socks which available on warehouse
  */
 
+@RequiredArgsConstructor
+@Slf4j
 @RestController
 public class SocksController {
 
-    private final Logger logger = LoggerFactory.getLogger("Controller Logger");
 
-    @Autowired
-    private SocksService socksService;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    private final SocksService socksService;
+    private final ModelMapper modelMapper;
 
     /**
      * Get list of all Socks from warehouse stock according to parameters.
      * Allowed to all roles
      * sample of request:
      * /api/socks?color=red&operation=moreThan&cottonPart=90 — should return red socks with cotton part more than 90%
-     * @param color - allowed color
-     * @param operation - moreThan, lessThan, equals
+     *
+     * @param color      - allowed color
+     * @param operation  - moreThan, lessThan, equals
      * @param cottonPart - 0...100 cotton part in socks
      * @return list of socks which suits with params
      */
@@ -45,7 +43,7 @@ public class SocksController {
                                   @RequestParam(value = "operation") String operation,
                                   @RequestParam(value = "cottonPart") @Min(0) @Max(100) Integer cottonPart) {
 
-        logger.info(color, operation, cottonPart);
+        log.info(color, operation, cottonPart);
         return socksService.getAllSocks(color, operation, cottonPart);
     }
 

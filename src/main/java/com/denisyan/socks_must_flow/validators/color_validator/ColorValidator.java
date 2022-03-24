@@ -1,9 +1,7 @@
-package com.denisyan.socks_must_flow.validators;
+package com.denisyan.socks_must_flow.validators.color_validator;
 
 
-import com.denisyan.socks_must_flow.helper.AllowedColors;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -15,15 +13,14 @@ import java.util.Locale;
  * Depends from Allowed Color Enum
  */
 
+@Slf4j
 public class ColorValidator implements ConstraintValidator<IColorValidator, String> {
-
-    private final Logger logger = LoggerFactory.getLogger("IColorValidator logger");
 
 
     @Override
     public boolean isValid(String color, ConstraintValidatorContext constraintValidatorContext) {
-        logger.debug("валидируем через аннотацию");
-        if(color == null) return false;
+        log.debug("валидируем через аннотацию");
+        if (color == null) return false;
         return Arrays.stream(AllowedColors.values()).map(AllowedColors::getFieldName).anyMatch(s -> s.toLowerCase(Locale.ROOT).equals(color.toLowerCase(Locale.ROOT)));
     }
 

@@ -1,9 +1,8 @@
-package com.denisyan.socks_must_flow.helper;
+package com.denisyan.socks_must_flow.validators.color_validator;
 
 /**
  * Allowed colors for socks which can be added or requested from warehouse
  * Annotation @IColorValidator depends from this Enum
- *
  */
 
 public enum AllowedColors {

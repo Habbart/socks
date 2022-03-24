@@ -1,8 +1,5 @@
 package com.denisyan.socks_must_flow.views;
 
-import com.denisyan.socks_must_flow.views.user_views.LoginClass;
-import com.denisyan.socks_must_flow.views.about.AboutView;
-import com.denisyan.socks_must_flow.views.user_views.RegistrationOfNewUser;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -109,11 +106,11 @@ public class MainLayout extends AppLayout {
 
     private List<RouterLink> createLinks() {
         MenuItemInfo[] menuItems = new MenuItemInfo[]{ //
-                new MenuItemInfo("Login", "la la-globe", LoginClass.class), //
-
-                new MenuItemInfo("Stock", "la la-user", RegistrationOfNewUser.class), //
-
-                new MenuItemInfo("About", "la la-file", AboutView.class), //
+//                new MenuItemInfo("Login", "la la-globe", LoginClass.class), //
+//
+//                new MenuItemInfo("Stock", "la la-user", RegistrationOfNewUser.class), //
+//
+//                new MenuItemInfo("About", "la la-file", AboutView.class), //
 
         };
         List<RouterLink> links = new ArrayList<>();
