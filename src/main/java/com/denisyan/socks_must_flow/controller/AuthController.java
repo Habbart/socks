@@ -3,7 +3,7 @@ package com.denisyan.socks_must_flow.controller;
 
 import com.denisyan.socks_must_flow.dto.UserDto;
 import com.denisyan.socks_must_flow.entity.User;
-import com.denisyan.socks_must_flow.security.AuthToken;
+import com.denisyan.socks_must_flow.security.rest.AuthToken;
 import com.denisyan.socks_must_flow.service.UserService;
 import com.denisyan.socks_must_flow.validators.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;

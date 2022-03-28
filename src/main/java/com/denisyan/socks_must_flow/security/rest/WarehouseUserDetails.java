@@ -1,4 +1,4 @@
-package com.denisyan.socks_must_flow.security;
+package com.denisyan.socks_must_flow.security.rest;
 
 
 import com.denisyan.socks_must_flow.entity.User;

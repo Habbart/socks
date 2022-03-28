@@ -3,7 +3,7 @@ package com.denisyan.socks_must_flow.controller;
 
 import com.denisyan.socks_must_flow.dto.SockDto;
 import com.denisyan.socks_must_flow.entity.Sock;
-import com.denisyan.socks_must_flow.service.SocksService;
+import com.denisyan.socks_must_flow.service.SocksRestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -24,7 +24,7 @@ import java.util.List;
 public class SocksController {
 
 
-    private final SocksService socksService;
+    private final SocksRestService socksService;
     private final ModelMapper modelMapper;
 
     /**
@@ -44,7 +44,7 @@ public class SocksController {
                                   @RequestParam(value = "cottonPart") @Min(0) @Max(100) Integer cottonPart) {
 
         log.info(color, operation, cottonPart);
-        return socksService.getAllSocks(color, operation, cottonPart);
+        return socksService.RestGetAllSocksByColorAndOperation(color, operation, cottonPart);
     }
 
     /**
@@ -74,7 +74,7 @@ public class SocksController {
     @PostMapping("/api/socks/outcome")
     public SockDto removeSocks(@Valid @RequestBody SockDto sockDto) {
         Sock sock = modelMapper.map(sockDto, Sock.class);
-        Sock sockFromService = socksService.removeSocks(sock);
+        Sock sockFromService = socksService.RestRemoveSocks(sock);
 
         return modelMapper.map(sockFromService, SockDto.class);
     }

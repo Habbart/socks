@@ -9,8 +9,6 @@ import com.denisyan.socks_must_flow.validators.AllowedOperation;
 import com.denisyan.socks_must_flow.validators.color_validator.AllowedColors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -24,11 +22,12 @@ import java.util.Locale;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class SocksService {
+public class SocksRestService {
 
     private final SocksRepository socksRepository;
 
     //todo добавить UI с помощью vaadin
+    //todo добавить проверку сесурити на морду
 
     /**
      * Check if there are sock with same color and percentage of cotton part in repository
@@ -45,7 +44,7 @@ public class SocksService {
             Sock sockFromDB = socksRepository.getByColorAndCottonPartEquals(sock.getColor(), sock.getCottonPart());
             log.info(String.format("socks from DB: %s, %d.", sockFromDB.getColor(), sockFromDB.getQuantity()));
             int quantity = sockFromDB.getQuantity() + sock.getQuantity();
-            int id = sockFromDB.getId();
+            long id = sockFromDB.getId();
             sock.setId(id);
             sock.setQuantity(quantity);
             log.info("sock на сохранение " + sock.getColor() + " " + sock.getQuantity());
@@ -65,11 +64,11 @@ public class SocksService {
      * @param sock which you want to remove
      * @return Sock which was removed
      */
-    public Sock removeSocks(Sock sock) {
+    public Sock RestRemoveSocks(Sock sock) {
         if (socksRepository.existsByColorAndAndCottonPart(sock.getColor(), sock.getCottonPart())) {
             Sock sockFromDB = socksRepository.getByColorAndCottonPartEquals(sock.getColor(), sock.getCottonPart());
             int quantity = sockFromDB.getQuantity() - sock.getQuantity();
-            int id = sockFromDB.getId();
+            long id = sockFromDB.getId();
             if (quantity < 0) quantity = 0;
             sock.setId(id);
             sock.setQuantity(quantity);
@@ -80,7 +79,6 @@ public class SocksService {
 
     }
 
-
     /**
      * Return list of all socks which suits with params (color, percentage of cotton part, operation filter)
      * If there are no socks with this filter - return empty list
@@ -90,7 +88,7 @@ public class SocksService {
      * @param cottonPart of sock
      * @return List<Sock>
      */
-    public List<Sock> getAllSocks(String color, String operation, Integer cottonPart) {
+    public List<Sock> RestGetAllSocksByColorAndOperation(String color, String operation, Integer cottonPart) {
         Sock sockForRequest = checkParamsAndReturnSockIfPossible(color, operation, cottonPart);
         String assertion = operation.toLowerCase(Locale.ROOT).trim();
         log.debug("params of URL: " + color + " " + operation + " " + cottonPart);

@@ -4,8 +4,6 @@ package com.denisyan.socks_must_flow.service;
 import com.denisyan.socks_must_flow.dao.SocksRepository;
 import com.denisyan.socks_must_flow.entity.Sock;
 import com.denisyan.socks_must_flow.exception_handler.SocksNotFound;
-import com.denisyan.socks_must_flow.service.SocksService;
-import com.vaadin.pro.licensechecker.Product;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,9 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 
 
-import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
@@ -32,7 +28,7 @@ class SockServiceTest {
         SocksRepository socksRepository;
 
         @Autowired
-        private SocksService socksService = new SocksService(socksRepository);
+        private SocksRestService socksService = new SocksRestService(socksRepository);
 
 
         @Test
@@ -54,9 +50,9 @@ class SockServiceTest {
                 int expectedMoreThan = 60;
 
 
-                List<Sock> allSocksEqual = socksService.getAllSocks("black", "equal", 50);
-                List<Sock> allSocksLessThan = socksService.getAllSocks("blue", "lessThan", 60);
-                List<Sock> allSocksMoreThan = socksService.getAllSocks("blue", "moreThan", 40);
+                List<Sock> allSocksEqual = socksService.RestGetAllSocksByColorAndOperation("black", "equal", 50);
+                List<Sock> allSocksLessThan = socksService.RestGetAllSocksByColorAndOperation("blue", "lessThan", 60);
+                List<Sock> allSocksMoreThan = socksService.RestGetAllSocksByColorAndOperation("blue", "moreThan", 40);
 
 
                 Assertions.assertEquals(expectedEqual, allSocksEqual.get(0).getQuantity());
@@ -68,7 +64,7 @@ class SockServiceTest {
 
         @Test
         void addSocks_socksNotExist(){
-                Sock black = new Sock(1, "black", 40, 40);
+                Sock black = new Sock(1L, "black", 40, 40);
 
                 socksService.addSocks(black);
 
@@ -77,7 +73,7 @@ class SockServiceTest {
 
         @Test
         void addSocks_socksExist(){
-                Sock black = new Sock(1, "black", 40, 40);
+                Sock black = new Sock(1L, "black", 40, 40);
                 given(socksRepository.existsByColorAndAndCottonPart("black", 40)).willReturn(true);
                 given(socksRepository.getByColorAndCottonPartEquals("black", 40))
                         .willReturn(black);
@@ -94,7 +90,7 @@ class SockServiceTest {
         @Test
         void removeSocks_NotExist_ShouldThrowException() {
                 Exception exception = Assert.assertThrows(SocksNotFound.class, () ->{
-                        socksService.removeSocks(new Sock("red", 50, 50));
+                        socksService.RestRemoveSocks(new Sock("red", 50, 50));
                 });
 
                 String expectedMessage = "No such kind of socks in warehouse";
@@ -106,12 +102,12 @@ class SockServiceTest {
 
         @Test
         void removeSocks_Exist() {
-                Sock sockForRemove = new Sock(1, "red", 50, 50);
+                Sock sockForRemove = new Sock(1l, "red", 50, 50);
                 given(socksRepository.existsByColorAndAndCottonPart("red", 50)).willReturn(true);
-                given(socksRepository.getByColorAndCottonPartEquals("red", 50)).willReturn(new Sock(1, "red", 50, 40));
+                given(socksRepository.getByColorAndCottonPartEquals("red", 50)).willReturn(new Sock(1l, "red", 50, 40));
 
 
-                socksService.removeSocks(sockForRemove);
+                socksService.RestRemoveSocks(sockForRemove);
 
 
                 Assertions.assertEquals(0, sockForRemove.getQuantity());

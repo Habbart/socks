@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Repo for socks
  */
-public interface SocksRepository extends JpaRepository<Sock, Integer> {
+public interface SocksRepository extends JpaRepository<Sock, Long> {
 
     boolean existsByColorAndAndCottonPart(String color, int cottonPart);
 
@@ -18,5 +18,6 @@ public interface SocksRepository extends JpaRepository<Sock, Integer> {
 
     List<Sock> getSocksByColorAndCottonPartLessThan(String color, int cottonPart);
 
+    List<Sock> findByColor(String color);
 
 }

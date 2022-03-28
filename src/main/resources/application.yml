@@ -1,0 +1,32 @@
+server:
+  port: ${PORT:8080}
+# Ensure application is run in Vaadin 14/npm mode
+vaadin:
+  compatibilityMode: false
+# To improve the performance during development.
+# For more information https://vaadin.com/docs/flow/spring/tutorial-spring-configuration.html#special-configuration-parameters
+  whitelisted-packages: com.vaadin,org.vaadin,com.example.application
+  vaadin.pnpm.enable: false
+logging:
+  level:
+    org:
+      atmosphere: warn
+#    root: debug
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?allowPublicKeyRetrieval=true&useSSL=false&amp&serverTimezone=UTC
+    username: postgres
+    password: superuser
+    initialization-mode: always
+  jpa:
+    show-sql=true:
+    properties:
+      hibernate:
+        formate_sql: true
+#        ddl-auto: validate
+  flyway:
+    baseline-on-migrate: false
+
+
+jwt.secret: secretword

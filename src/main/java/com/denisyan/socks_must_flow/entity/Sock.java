@@ -24,7 +24,7 @@ public class Sock {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @IColorValidator(message = "color is incorrect, please check color with allowed colors")
     @Column(name = "color")
@@ -56,6 +56,5 @@ public class Sock {
                 ", quantity=" + quantity +
                 '}';
     }
-
 
 }

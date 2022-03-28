@@ -1,8 +1,9 @@
-package com.denisyan.socks_must_flow.security;
+package com.denisyan.socks_must_flow.security.rest;
 
 
 import com.denisyan.socks_must_flow.validators.jwt.JwtFilter;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -13,10 +14,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * Security configuration class.
  * If need to add more strict rules for some methods - it is here
  */
-
+@Slf4j
 @EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
 
 
     private final JwtFilter jwtFilter;
@@ -33,6 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        log.debug("зашли в конфигурацию сесурити");
         String chiefOfWarehouse = "CHIEF_OF_WAREHOUSE";
         http
                 .httpBasic().disable()
@@ -48,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
+
 
 
 }

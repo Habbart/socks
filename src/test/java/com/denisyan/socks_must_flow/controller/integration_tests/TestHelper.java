@@ -71,6 +71,14 @@ public class TestHelper {
                     "\"password\": \"QWERTY12345\"" +
                     "}";
 
+    public static final String CORRECT_WAREHOUSEMAN_1 =
+            "{" +
+                    "\"name\": \"Artem\"," +
+                    "\"surname\":\"Alekseev\"," +
+                    "\"login\": \"MEGAARTEM\"," +
+                    "\"password\": \"QWERTY123456\"" +
+                    "}";
+
     public static final String SUPERUSER =
             "{" +
                     "\"name\": \"admin\"," +
