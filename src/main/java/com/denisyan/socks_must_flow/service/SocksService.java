@@ -11,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 
 /**
@@ -22,7 +20,7 @@ import java.util.Locale;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class SocksRestService {
+public class SocksService {
 
     private final SocksRepository socksRepository;
 
@@ -38,10 +36,11 @@ public class SocksRestService {
      * @param sock which you want to add
      * @return Sock which was added
      */
-    public Sock addSocks(Sock sock) {
-        if (socksRepository.existsByColorAndAndCottonPart(sock.getColor(), sock.getCottonPart())) {
+    public Sock addOrUpdateSocks(Sock sock) {
+        checkColorIfAllowed(sock.getColor());
+        if (socksRepository.existsByColorAndAndCottonPart(sock.getColor().toLowerCase(Locale.ROOT), sock.getCottonPart())) {
             log.info("зашли в if");
-            Sock sockFromDB = socksRepository.getByColorAndCottonPartEquals(sock.getColor(), sock.getCottonPart());
+            Sock sockFromDB = socksRepository.getByColorAndCottonPartEquals(sock.getColor().toLowerCase(Locale.ROOT), sock.getCottonPart());
             log.info(String.format("socks from DB: %s, %d.", sockFromDB.getColor(), sockFromDB.getQuantity()));
             int quantity = sockFromDB.getQuantity() + sock.getQuantity();
             long id = sockFromDB.getId();
@@ -64,7 +63,7 @@ public class SocksRestService {
      * @param sock which you want to remove
      * @return Sock which was removed
      */
-    public Sock RestRemoveSocks(Sock sock) {
+    public Sock restRemoveSocks(Sock sock) {
         if (socksRepository.existsByColorAndAndCottonPart(sock.getColor(), sock.getCottonPart())) {
             Sock sockFromDB = socksRepository.getByColorAndCottonPartEquals(sock.getColor(), sock.getCottonPart());
             int quantity = sockFromDB.getQuantity() - sock.getQuantity();
@@ -88,7 +87,7 @@ public class SocksRestService {
      * @param cottonPart of sock
      * @return List<Sock>
      */
-    public List<Sock> RestGetAllSocksByColorAndOperation(String color, String operation, Integer cottonPart) {
+    public List<Sock> restGetAllSocksByColorAndOperation(String color, String operation, Integer cottonPart) {
         Sock sockForRequest = checkParamsAndReturnSockIfPossible(color, operation, cottonPart);
         String assertion = operation.toLowerCase(Locale.ROOT).trim();
         log.debug("params of URL: " + color + " " + operation + " " + cottonPart);
@@ -105,6 +104,31 @@ public class SocksRestService {
             log.debug("result equals: " + result);
             return List.of(result);
         }
+    }
+
+    //todo ограничить вывод и описать методы
+    public Collection<Sock> findAll() {
+        return socksRepository.findAll();
+    }
+
+    public Sock add(Sock sock) {
+        return socksRepository.save(sock);
+    }
+
+    public Sock update(Sock sock) {
+        return socksRepository.save(sock);
+    }
+
+    public void delete(Sock sock) {
+        socksRepository.delete(sock);
+    }
+
+    public Collection<Sock> findByColor(String color) {
+        return socksRepository.findByColor(color.toLowerCase(Locale.ROOT));
+    }
+
+    public Optional<Sock> findById(Long id) {
+        return socksRepository.findById(id);
     }
 
     /**
@@ -130,8 +154,11 @@ public class SocksRestService {
      * @param color of sock
      */
     private void checkColorIfAllowed(String color) {
+
         log.debug("проверка цвета " + color);
-        if (Arrays.stream(AllowedColors.values()).map(AllowedColors::getFieldName).noneMatch(s -> s.equals(color))) {
+        if(color == null) throw new IllegalArgumentException("Color can't be empty");
+        String lowerColor = color.toLowerCase(Locale.ROOT);
+        if (Arrays.stream(AllowedColors.values()).map(AllowedColors::getFieldName).noneMatch(s -> s.equals(lowerColor))) {
             throw new IllegalParamException("color is incorrect, please check color with allowed colors");
         }
     }

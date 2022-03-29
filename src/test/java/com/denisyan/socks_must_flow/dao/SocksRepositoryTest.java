@@ -24,6 +24,9 @@ class SocksRepositoryTest {
 
     @BeforeAll
     void addSocksForTest(){
+        logger.info("удаляем все носки");
+        socksRepository.deleteAll();
+
         socksRepository.save(new Sock("black", 50, 100));
         socksRepository.save(new Sock("black", 30, 50));
         socksRepository.save(new Sock("black", 10, 25));

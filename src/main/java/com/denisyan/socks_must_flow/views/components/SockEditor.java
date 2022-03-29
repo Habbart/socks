@@ -1,15 +1,18 @@
 package com.denisyan.socks_must_flow.views.components;
 
 import com.denisyan.socks_must_flow.entity.Sock;
-import com.denisyan.socks_must_flow.service.SocksViewService;
+import com.denisyan.socks_must_flow.service.SocksService;
+import com.denisyan.socks_must_flow.validators.color_validator.AllowedColors;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.converter.StringToIntegerConverter;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import lombok.Setter;
@@ -20,10 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 @UIScope
 public class SockEditor extends VerticalLayout implements KeyNotifier {
 
-    private final SocksViewService socksViewService;
-    //todo 1.надо поменять на ДТО и ДТО сделать все поля строками
-    private Sock sock;
-    TextField color = new TextField("Color");
+    private final transient SocksService socksService;
+
+    private transient Sock sock;
+    ComboBox<String> color = new ComboBox<>("Color");
     TextField cottonPart = new TextField("Cotton Part");
     TextField quantity = new TextField("Quantity");
     Button save = new Button("Save", VaadinIcon.CHECK.create());
@@ -32,16 +35,20 @@ public class SockEditor extends VerticalLayout implements KeyNotifier {
     HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
     Binder<Sock> binder = new Binder<>(Sock.class);
     @Setter
-    ChangeHandler changeHandler;
+    transient ChangeHandler changeHandler;
 
     public interface ChangeHandler {
         void onChange();
     }
-    @Autowired
-    public SockEditor(SocksViewService socksViewService) {
-        this.socksViewService = socksViewService;
 
+    @Autowired
+    public SockEditor(SocksService socksService) {
+        this.socksService = socksService;
+        color.setItems(AllowedColors.getAllowedColorList());
         add(color, cottonPart, quantity, actions);
+
+        setUpBinder();
+
         // bind using naming convention
         binder.bindInstanceFields(this);
 
@@ -63,12 +70,12 @@ public class SockEditor extends VerticalLayout implements KeyNotifier {
 
 
     public void save() {
-        socksViewService.update(sock);
+        socksService.addOrUpdateSocks(sock);
         changeHandler.onChange();
     }
 
     public void delete() {
-        socksViewService.delete(sock);
+        socksService.delete(sock);
         changeHandler.onChange();
     }
 
@@ -79,7 +86,7 @@ public class SockEditor extends VerticalLayout implements KeyNotifier {
         }
 
         if (newSock.getId() != null) {
-            sock = socksViewService.findById(newSock.getId()).orElse(newSock);
+            sock = socksService.findById(newSock.getId()).orElse(newSock);
         } else {
             sock = newSock;
         }
@@ -88,7 +95,19 @@ public class SockEditor extends VerticalLayout implements KeyNotifier {
         setVisible(true);
 
         color.focus();
+    }
 
+    //из-за бага в Vaadin надо в ручную прописывать конвертер из строк в числа
+    // https://vaadin.com/forum/thread/15385912/binding-from-integer-not-working
+    private void setUpBinder() {
+        binder.forField(this.cottonPart)
+                .withNullRepresentation("")
+                .withConverter(new StringToIntegerConverter(0, "integers only"))
+                .bind(Sock::getCottonPart, Sock::setCottonPart);
 
+        binder.forField(this.quantity)
+                .withNullRepresentation("")
+                .withConverter(new StringToIntegerConverter(0, "integers only"))
+                .bind(Sock::getQuantity, Sock::setQuantity);
     }
 }

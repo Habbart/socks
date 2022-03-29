@@ -11,7 +11,7 @@ logging:
   level:
     org:
       atmosphere: warn
-#    root: debug
+    root: debug
 
 spring:
   datasource:
