@@ -25,6 +25,7 @@ public class SocksView extends VerticalLayout {
     public SocksView(SocksService socksService, SockEditor sockEditor) {
         this.socksService = socksService;
         this.addNewButton = new Button("Add sock", VaadinIcon.PLUS.create());
+
         filter = new TextField();
         grid = new Grid<>(Sock.class);
 
@@ -38,9 +39,10 @@ public class SocksView extends VerticalLayout {
         filter.addValueChangeListener(e -> filterSocks(e.getValue()));
 
         // Connect selected Customer to editor or hide if none is selected
-        grid.asSingleSelect().addValueChangeListener(e ->  sockEditor.editSock(e.getValue()));
-
-
+        grid.asSingleSelect().addValueChangeListener(e -> {
+            sockEditor.editSock(e.getValue());
+            sockEditor.setColorAndCottonNonActive();
+        });
         // Instantiate and edit new Customer the new button is clicked
         addNewButton.addClickListener(e -> sockEditor.editSock(new Sock()));
 
