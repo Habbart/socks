@@ -24,7 +24,6 @@ public class SocksService {
 
     private final SocksRepository socksRepository;
 
-    //todo добавить UI с помощью vaadin
     //todo добавить проверку сесурити на морду
 
     /**
@@ -154,7 +153,6 @@ public class SocksService {
      * @param color of sock
      */
     private void checkColorIfAllowed(String color) {
-
         log.debug("проверка цвета " + color);
         if(color == null) throw new IllegalArgumentException("Color can't be empty");
         String lowerColor = color.toLowerCase(Locale.ROOT);

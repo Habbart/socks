@@ -12,6 +12,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Route("/")
 public class SocksView extends VerticalLayout {
@@ -20,7 +21,6 @@ public class SocksView extends VerticalLayout {
     private final Button addNewButton;
     final TextField filter;
     private Grid<Sock> grid;
-
 
     public SocksView(SocksService socksService, SockEditor sockEditor) {
         this.socksService = socksService;
