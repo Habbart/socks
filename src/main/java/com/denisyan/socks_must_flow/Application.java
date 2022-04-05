@@ -30,10 +30,11 @@ public class Application extends SpringBootServletInitializer {
         return new ModelMapper();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    //todo бины passwordEncoder и UserDetailServise берутся Security автоматически при создании => ведёт к ошибкам с аутентификацией юзера
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 
     
 

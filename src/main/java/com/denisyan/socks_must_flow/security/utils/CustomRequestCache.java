@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class CustomRequestCache extends HttpSessionRequestCache {
     //todo добавить классы в папку utils
-    //todo логин-пароль не берёт из базы из-за шифрования
+
 
     /**
      * {@inheritDoc}
