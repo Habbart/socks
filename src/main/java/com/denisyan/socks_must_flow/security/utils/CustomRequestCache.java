@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
  * HttpSessionRequestCache that avoids saving internal framework requests.
  */
 public class CustomRequestCache extends HttpSessionRequestCache {
+    //todo добавить классы в папку utils
+    //todo логин-пароль не берёт из базы из-за шифрования
+
     /**
      * {@inheritDoc}
      *

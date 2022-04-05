@@ -64,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //https://vaadin.com/learn/tutorials/securing-your-app-with-spring-security/setting-up-spring-security
 
     private static final String LOGIN_PROCESSING_URL = "/login";
-    private static final String LOGIN_FAILURE_URL = "/login";
+    private static final String LOGIN_FAILURE_URL = "/login?error";
     private static final String LOGIN_URL = "/login";
     private static final String LOGOUT_SUCCESS_URL = "/login";
     private static final String CHIEF_OF_WAREHOUSE = "CHIEF_OF_WAREHOUSE";
