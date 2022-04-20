@@ -1,10 +1,10 @@
 package com.denisyan.socks_must_flow.service;
 
 
-import com.denisyan.socks_must_flow.dao.SocksRepository;
 import com.denisyan.socks_must_flow.entity.Sock;
 import com.denisyan.socks_must_flow.exception_handler.IllegalParamException;
 import com.denisyan.socks_must_flow.exception_handler.SocksNotFound;
+import com.denisyan.socks_must_flow.repositories.SocksRepository;
 import com.denisyan.socks_must_flow.validators.AllowedOperation;
 import com.denisyan.socks_must_flow.validators.color_validator.AllowedColors;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,8 @@ public class SocksService {
 
     private final SocksRepository socksRepository;
 
-    //todo добавить проверку сесурити на морду
+    //todo 2.добавить проверку сесурити на морду
+    //todo 1.допилить морду https://www.youtube.com/watch?v=bxy2JgqqKDU
 
     /**
      * Check if there are sock with same color and percentage of cotton part in repository
@@ -130,6 +131,21 @@ public class SocksService {
         return socksRepository.findById(id);
     }
 
+
+
+    public Map<String, Integer> getAllColorsAndQuantity() {
+        Map<String, Integer> mapFromDB = socksRepository.findAllColorsAndQuantities();
+        Map<String, Integer> resultMap = new HashMap<>();
+        log.debug("содержимое мапы");
+        mapFromDB.forEach((k, v) -> { //возможно кривой метод :D
+            log.debug("key: " + k + ", value: " + v);
+            resultMap.computeIfPresent(k.toUpperCase(), (key, value) -> value + v);
+        });
+
+        return resultMap;
+    }
+
+
     /**
      * Check if params are correct.
      * Throw exception if they don't
@@ -154,11 +170,12 @@ public class SocksService {
      */
     private void checkColorIfAllowed(String color) {
         log.debug("проверка цвета " + color);
-        if(color == null) throw new IllegalArgumentException("Color can't be empty");
+        if (color == null) throw new IllegalArgumentException("Color can't be empty");
         String lowerColor = color.toLowerCase(Locale.ROOT);
         if (Arrays.stream(AllowedColors.values()).map(AllowedColors::getFieldName).noneMatch(s -> s.equals(lowerColor))) {
             throw new IllegalParamException("color is incorrect, please check color with allowed colors");
         }
     }
+
 
 }

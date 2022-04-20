@@ -1,16 +1,14 @@
 package com.denisyan.socks_must_flow.service;
 
 
-import com.denisyan.socks_must_flow.dao.RoleRepository;
-import com.denisyan.socks_must_flow.dao.UserRepository;
+import com.denisyan.socks_must_flow.repositories.RoleRepository;
+import com.denisyan.socks_must_flow.repositories.UserRepository;
 import com.denisyan.socks_must_flow.entity.Role;
 import com.denisyan.socks_must_flow.entity.User;
 import com.denisyan.socks_must_flow.exception_handler.IllegalParamException;
 import com.denisyan.socks_must_flow.exception_handler.LoginAlreadyExistException;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
