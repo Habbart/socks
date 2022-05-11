@@ -1,4 +1,4 @@
-package com.denisyan.socks_must_flow.dao;
+package com.denisyan.socks_must_flow.repositories;
 
 import com.denisyan.socks_must_flow.entity.User;
 import org.junit.jupiter.api.BeforeAll;

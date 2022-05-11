@@ -34,7 +34,7 @@ public class SockEditor extends VerticalLayout implements KeyNotifier {
     Button setToZero = new Button("Set to zero", VaadinIcon.HAMMER.create());
     //делим основные действия на два Layout, чтобы можно было убирать кнопки удаления
     HorizontalLayout actions = new HorizontalLayout(save, cancel);
-    HorizontalLayout deleteActions = new HorizontalLayout(deletePosition, setToZero);
+    VerticalLayout deleteActions = new VerticalLayout(deletePosition, setToZero);
     Binder<Sock> binder = new Binder<>(Sock.class);
     @Setter
     transient ChangeHandler changeHandler;

@@ -4,7 +4,7 @@ package com.denisyan.socks_must_flow.controller.integration_tests.Tests;
 
 import com.denisyan.socks_must_flow.Application;
 import com.denisyan.socks_must_flow.controller.integration_tests.TestHelper;
-import com.denisyan.socks_must_flow.dao.SocksRepository;
+import com.denisyan.socks_must_flow.repositories.SocksRepository;
 import com.denisyan.socks_must_flow.entity.Sock;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

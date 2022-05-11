@@ -1,7 +1,7 @@
 package com.denisyan.socks_must_flow.service;
 
 
-import com.denisyan.socks_must_flow.dao.SocksRepository;
+import com.denisyan.socks_must_flow.repositories.SocksRepository;
 import com.denisyan.socks_must_flow.entity.Sock;
 import com.denisyan.socks_must_flow.exception_handler.SocksNotFound;
 import org.junit.jupiter.api.Assertions;

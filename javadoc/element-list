@@ -1,7 +1,7 @@
 com.denisyan.socks_must_flow
 com.denisyan.socks_must_flow.controller
 com.denisyan.socks_must_flow.controller.integration_tests
-com.denisyan.socks_must_flow.dao
+com.denisyan.socks_must_flow.repositories
 com.denisyan.socks_must_flow.DTO
 com.denisyan.socks_must_flow.entity
 com.denisyan.socks_must_flow.exception_handler

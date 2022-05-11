@@ -33,20 +33,20 @@ public class JwtFilter extends GenericFilterBean {
     public static final String AUTHORIZATION = "Authorization";
     public static final String BEARER = "Bearer ";
     private final JwtValidator validator;
-    private final WarehouseUserDetailsService warehouseUserDetailsService;
+//    private final WarehouseUserDetailsService warehouseUserDetailsService;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        String token = getTokenFromRequest((HttpServletRequest) servletRequest);
-        log.debug("servletRequest: " + servletRequest);
-        if (token != null && validator.validateToken(token)) {
-            log.debug("зашли в фильтр токена");
-            String userLogin = validator.getLoginFromToken(token);
-            UserDetails warehouseUserDetails = warehouseUserDetailsService.loadUserByUsername(userLogin);
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(warehouseUserDetails, null, warehouseUserDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(auth);
-            log.debug("token: " + token + "username: " + userLogin);
-        }
+//        String token = getTokenFromRequest((HttpServletRequest) servletRequest);
+//        log.debug("servletRequest: " + servletRequest);
+//        if (token != null && validator.validateToken(token)) {
+//            log.debug("зашли в фильтр токена");
+//            String userLogin = validator.getLoginFromToken(token);
+//            UserDetails warehouseUserDetails = warehouseUserDetailsService.loadUserByUsername(userLogin);
+//            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(warehouseUserDetails, null, warehouseUserDetails.getAuthorities());
+//            SecurityContextHolder.getContext().setAuthentication(auth);
+//            log.debug("token: " + token + "username: " + userLogin);
+//        }
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
