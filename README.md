@@ -24,6 +24,8 @@
 скачать или скопировать файл [docker-compose.yaml](https://github.com/Habbart/socks/blob/main/src/main/docker/docker-compose.yml)
 
 запустить командой: docker-compose up
+user: user
+password: password
 
 ## Требования
 Реализовать приложение для автоматизации учёта носков на складе магазина. Кладовщик должен иметь возможность:
